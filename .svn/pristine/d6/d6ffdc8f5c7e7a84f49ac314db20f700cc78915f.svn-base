@@ -1,0 +1,28 @@
+ts_d7composit_src=/SAT/DMSP/SSMIS/ICE/OSP/weekly_ALL_nh.regression
+ts_d7_3p_src=/SAT/DMSP/SSMIS/ICE/OSP/weekly_mean_local_ALL_nh.twc
+iceExt_src=/SAT/DMSP/SSMIS/ICE/OSP/weekly_mean_small_ice_local_ALL_nh.twc
+iceRou_src=/SAT/DMSP/SSMIS/ICE/OSP/weekly_mean_small_rou_local_ALL_nh.twc
+
+ts_d7composit_out=/SAT/DMSP/SSMIS/ICE/ASC/CONCENT/ts_ice.json
+ts_d7_3p_out=/SAT/DMSP/SSMIS/ICE/ASC/CONCENT/ts_ice_3p.json
+trendLongTerm_out=/SAT/DMSP/SSMIS/ICE/ASC/CONCENT/ts_trend.json
+
+iceExt_target=/SAT/DMSP/SSMIS/ICE/ASC/CONCENT/PASSAGEExt.json
+iceRou_target=/SAT/DMSP/SSMIS/ICE/ASC/CONCENT/PASSAGERou.json
+
+dataSeqStr = barents,kara,laptev,eastSiberia,chukchi,bering
+#dataSeqStr = beaufort,eastSiberia,laptev,kara,barents,hudson,chukchi
+#lastest orderkb78 # dataSeqStr = barents,kara,laptev,eastSiberia,chukchi,bering
+
+yearBegin = 2007
+yearCurrent = 2015
+dMapper=pathToFile
+var2BProcessed=Evapo,SSTDaily,SSTMonthly
+fileNamePrefix=msst_osst_
+
+
+DB_DRIVER = oracle.jdbc.driver.OracleDriver
+#DB_CONNECTION = jdbc:oracle:thin:@(description=(address_list=(address=(protocol=TCP)(host=112.217.150.33)(port=1521)))(connect_data=(service_name=XE)))
+DB_CONNECTION = jdbc:oracle:thin:@172.19.11.73:2525:comsdb2
+DB_USER = seaice
+DB_PASSWORD = ice!@#

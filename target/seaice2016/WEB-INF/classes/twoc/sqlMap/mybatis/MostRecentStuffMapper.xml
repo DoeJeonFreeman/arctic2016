@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.seaice.mybatis.MostRecentStuffMapper">
+	
+  <select id="retrieveOneArcticData"  resultType="MostRecentStuff">
+    SELECT seriesNo, compBeginDate, extent, roughness
+    FROM TIMESERIES 
+    WHERE compbegindate = (select max(compbegindate) 
+    						from timeseries)
+  </select>
+  
+  <select id="retrieveMatchingArcticData" parameterType="hashmap"   resultType="MostRecentStuff">
+    SELECT seriesNo, compBeginDate, extent, roughness
+    FROM TIMESERIES 
+    WHERE compbegindate 
+    BETWEEN TO_DATE(#{weekAgo},'YYYY-MM-DD') AND TO_DATE(#{dateSelected},'YYYY-MM-DD') 
+  </select>
+  
+  <select id="retrieveMatchingArcticDataList" parameterType="hashmap"   resultType="MostRecentStuff">
+    SELECT seriesNo, compBeginDate, extent, roughness
+    FROM TIMESERIES 
+    WHERE compbegindate 
+    BETWEEN TO_DATE(#{dBegin},'YYYY-MM-DD') AND TO_DATE(#{dEnd},'YYYY-MM-DD') 
+    ORDER BY compbegindate ASC
+  </select>
+
+</mapper>

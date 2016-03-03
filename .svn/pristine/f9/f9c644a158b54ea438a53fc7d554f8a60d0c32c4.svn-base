@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"  
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://mybatis.org/schema/mybatis-spring 
+    	http://mybatis.org/schema/mybatis-spring.xsd">
+
+	<!-- xsi 스키마 버전 왜 3.0임 4.대로 바꾸자 뭐 바뀐내용 있나 확인필
+	xmlns:security="http://www.springframework.org/schema/security"  
+	
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd
+	
+	<security:global-method-security pre-post-annotations="enabled" />
+	 -->
+	<security:global-method-security pre-post-annotations="enabled" />
+
+
+
+	<!-- 패키지 내 Controller, Service, Repository 클래스의 auto detect를 위한 mvc 설정
+		베이스패키지를 kr.go.seaice로 잡아 최상위로ㅋㅋㅋㅋ
+	 -->
+	<context:component-scan base-package="kr.go.seaice" >
+		<!-- 
+		요게 먼지 알아보자
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+		 -->
+	</context:component-scan>
+
+
+
+	<!-- mybatis3.2.x mybatis-spring 1.2.0 이상 사용가능(jdk6)
+	<mybatis:scan base-package="kr.go.seaice.mybatis" />
+	-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="kr.go.seaice.mybatis"/>
+	</bean>	
+	
+	
+	<!-- 서블릿컨네이너상의 exception에 대한 오류 페이지를 연결하는 mvc 설정.  개발완료 전까진 코멘트아웃
+	
+	-->
+    <!-- 
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="cmm/error/pageNotFound"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.dao.DataAccessException">cmm/error/dataAccessFailure</prop>
+                <prop key="org.springframework.transaction.TransactionException">cmm/error/transactionFailure</prop>
+                <prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">cmm/error/egovError</prop>
+                <prop key="org.springframework.security.AccessDeniedException">cmm/error/accessDenied</prop>
+            </props>
+        </property>
+    </bean>
+     -->
+
+
+
+
+    <!-- 화면처리용 JSP 파일명의  prefix, suffix 처리에 대한 mvc 설정  -->
+    <!-- 
+     -->
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
+	    p:viewClass="org.springframework.web.servlet.view.JstlView"
+	    p:contentType="text/html;charset=UTF-8"
+	    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+     
+    <!-- doejeon
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+    --> 
+
+
+
+
+	<!--  
+		doejeon.. 다른 방법이 있나 찾아보자 
+		
+		web.xml servlet-mapping 시 url-pattern을 /로 주고 mvc:resource 들록..
+		아님 .do만 매핑하고 나머지 리소는 걍 엑세스 되게.. 뭐가 좋은건지ㅋㅋㅋㅋㅋ
+		
+	-->
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/assets/**" location="/assets/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	
+	<mvc:resources mapping="/mestrap/**" location="/meResources/ice/meBoot/" />
+	<!-- 
+	<mvc:resources mapping="/repos/**" location="/meData/" />
+	 -->
+	
+	<mvc:resources mapping="/data/**" location="/arcticData/" />
+	
+
+
+
+
+
+    <!-- 로그인 체크가 필요한 URL과 로그인 여부를 체크해준다 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/cop/com/*.do"/>
+            <mvc:mapping path="/cop/bbs/*Master*.do"/>
+            <mvc:mapping path="/uat/uia/*.do"/>
+            <mvc:exclude-mapping path="/uat/uia/actionLogin.do"/>
+            <mvc:exclude-mapping path="/uat/uia/egovLoginUsr.do"/>
+		    <bean class="egovframework.com.cmm.interceptor.AuthenticInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+    -->
+
+    <!-- Annotation 을 사용하지 않는 경우에 대한 MVC 처리 설정 
+    <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
+    -->
+    
+
+
+
+	<mvc:annotation-driven />
+	
+</beans>

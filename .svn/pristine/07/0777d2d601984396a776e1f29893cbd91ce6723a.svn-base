@@ -1,0 +1,387 @@
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+import java.util.Vector;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+public class TimeSeriesJSONPopulator{
+
+	private Properties prop;
+
+	private String yearBegin;
+	private String yearEnd; 
+
+	private List<String> dateList;
+	private String[] seas;
+
+	public TimeSeriesJSONPopulator() {
+		loadPropertyFile();
+		initData();
+	}
+
+	/**
+	 * seas[] = 1 beaufort, 2 eastSiberia, 3 laptev, 4 kara, 5 barents, 6 hudson, 7 chukchi
+	 */
+	private void initData(){
+		yearBegin = prop.getProperty("yearBegin");  //2007
+		yearEnd = prop.getProperty("yearCurrent"); //2015 
+		seas = prop.getProperty("dataSeqStr").split(",");  
+//		seas = new String[]{"ext","rou"};
+//		seas = new String[]{"barents","bering,hudson"};
+	}
+	
+	private void loadPropertyFile(){
+		prop = new Properties();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream("/home/himasat2/SEA_ICE/EXEC4WEB/EXECUTABLE/JSONPopulator/ice.properties");
+			prop.load(fis);
+		} catch (IOException e) {
+			System.out.println("[IOException]ice.properties not found.");
+		} finally{
+			if(fis != null){
+				try{
+					fis.close();
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * 
+	 * typeNum 1:����غ�ȭ�ð迭 2:�ؿ������� 3:�ֱ��غ�ȭ
+	 * 
+	 */
+	public JSONObject parseUsingScanner(String path, int columnCnt, int typeNum)  {
+		//Input file which needs to be parsed
+//		if(path.indexOf("_rou_") != -1){
+//			return makeRoughnessSeries(path);
+//		}else {
+			return makeExtentSeries(path,columnCnt,  typeNum);
+//		}
+	}
+
+
+	private JSONObject makeExtentSeries(String path, int columnCnt, int typeNum)  {
+		String fileToParse = path;
+		JSONObject json_ice = new JSONObject();
+		final String DELIMITER = ",";
+		
+		seas = new String[]{"ext","rou"};
+		
+		BufferedReader fileReader = null;
+		dateList = null;
+		
+		 ArrayList<String[]> arrStored = new ArrayList<String[]>();
+		
+		try{
+			String line = "";
+			JSONArray list = new JSONArray();
+			fileReader = new BufferedReader(new FileReader(fileToParse));
+			dateList = new Vector<String>();
+			while ((line = fileReader.readLine()) != null) {
+				String[] tokens = line.split(DELIMITER);
+
+				if(tokens.length < columnCnt) continue;
+				if( ! isNumeric(tokens[0])) continue; //skip metadata
+
+//				JSONObject obj = new JSONObject();
+				
+				//subtract mmdd list haha
+				if(tokens[0].startsWith(yearBegin)) subtractObsDateList(tokens[0]);
+				Collections.sort(dateList);
+				//subtract mmdd list haha
+				
+				arrStored.add(tokens);
+
+//				for(int i=0; i<tokens.length; i++){
+//					String currToken = (String.valueOf(tokens[i]).length()!=0)? tokens[i].toString() : null;
+//					if(currToken != null){
+//						if(Math.abs(Double.parseDouble(currToken))==999 || Double.isNaN(Double.parseDouble(currToken))) currToken=null;
+//					}
+//					if(i==0){ //date 
+//						obj.put("date", addDelimeterIntoDateStr(tokens[i],"yyyyMMdd"));
+//					}else if(i==1){  // TaMax
+//						obj.put("beaufort", currToken);
+//					}else if(i==2){  // TsMax
+//						obj.put("eastSiberia", currToken);
+//					}else if(i==3){  // TsMax
+//						obj.put("laptev", currToken);
+//					}
+//				}
+//				list.add(obj);
+			}
+//			json_ice.put("timeseries", list);
+			
+			
+			for(int i=0; i < seas.length; i++){
+			
+				JSONArray sea = new JSONArray();
+				
+				for (String MMDD: dateList){ 
+					JSONObject obj = new JSONObject();
+					obj.put("date", MMDD.substring(0, 2)+","+MMDD.substring(2, 4));
+					int cnt=0;
+					double sum=0;
+					for(String[] arrCSV : arrStored){
+						if(arrCSV[0].endsWith(MMDD)){
+							obj.put("e"+arrCSV[0].substring(2, 4), arrCSV[i+1]); 
+							if(seas[i].equals("ext") && arrCSV[0].startsWith(yearBegin)){
+								obj.put("nadir", getNadirOrPeak(arrCSV[4])); 
+								obj.put("peak", getNadirOrPeak(arrCSV[5])); 
+							}
+							
+							if(seas[i].equals("ext") && !arrCSV[0].startsWith(yearEnd)){
+								cnt++;
+								sum+= Double.parseDouble(arrCSV[i+1]);
+							}
+							
+						}
+					}
+					if(seas[i].equals("ext"))obj.put("weeklyMean", sum/cnt);
+					sea.add(obj);
+				}
+				json_ice.put(seas[i], sea);
+			}
+			
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				fileReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return json_ice;
+	}
+
+	
+	private double getNadirOrPeak(String val){
+		double d = Double.parseDouble(val)/Math.pow(10, 6) ;
+		return Double.parseDouble(String.format("%.4f", d));
+	}
+	
+	
+	private JSONObject makeLocal3PSeries(String path, int columnCnt, int typeNum)  {
+		String fileToParse = path;
+		JSONObject json_ice = new JSONObject();
+		final String DELIMITER = ",";
+		
+		seas = new String[]{"barents","bering","hudson"};
+
+		
+		BufferedReader fileReader = null;
+		dateList = null;
+		
+		 ArrayList<String[]> arrStored = new ArrayList<String[]>();
+		
+		try{
+			String line = "";
+			JSONArray list = new JSONArray();
+			fileReader = new BufferedReader(new FileReader(fileToParse));
+			dateList = new Vector<String>();
+			while ((line = fileReader.readLine()) != null) {
+				String[] tokens = line.split(DELIMITER);
+
+				if(tokens.length < columnCnt) continue;
+				if( ! isNumeric(tokens[0])) continue; //skip metadata
+
+//				JSONObject obj = new JSONObject();
+				
+				//subtract mmdd list haha
+				if(tokens[0].startsWith(yearBegin)) subtractObsDateList(tokens[0]);
+				Collections.sort(dateList);
+				//subtract mmdd list haha
+				
+				arrStored.add(tokens);
+
+			}
+//			json_ice.put("timeseries", list);
+			
+			for(int i=0; i < seas.length; i++){
+			
+				JSONArray sea = new JSONArray();
+				
+				for (String MMDD: dateList){ 
+					JSONObject obj = new JSONObject();
+					obj.put("date", MMDD.substring(0, 2)+","+MMDD.substring(2, 4));
+																																System.out.println("[MMDD]" + MMDD); 
+//																																System.out.print("arr [ " );
+					for(String[] arrCSV : arrStored){
+						if(arrCSV[0].endsWith(MMDD)){
+							obj.put("e"+arrCSV[0].substring(2, 4), arrCSV[i+1]); System.out.print(" ,e"+arrCSV[0].substring(2, 4) +  ": " + arrCSV[i+1]); //1 barents EXT, 2 bering EXT, 3 hudson EXT,        4 barents ROU,    5 bering ROU,    6 hudson ROU 
+							obj.put("r"+arrCSV[0].substring(2, 4), arrCSV[i+4]); System.out.print(" ,r"+arrCSV[0].substring(2, 4) +  ": " + arrCSV[i+4] );
+//																																System.out.print(" ,e"+arrCSV[0].substring(2, 4) +  ": " + arrCSV[1]+" ,r"+arrCSV[0].substring(2, 4) +  ": " + arrCSV[i+1+3] );
+						}	
+					}	
+//																																System.out.println("] " );
+																																System.out.println("######################");
+					sea.add(obj);
+				}
+				json_ice.put(seas[i], sea);
+			}
+			
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				fileReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return json_ice;
+	}
+	
+	
+	
+	private JSONObject makeLongTermTrend(String path, int columnCnt)  {
+		String fileToParse = path;
+		JSONObject json_ice = new JSONObject();
+		final String DELIMITER = ",";
+		
+		seas = new String[]{"ext","rou"};
+		
+		BufferedReader fileReader = null;
+		dateList = null;
+		
+		 ArrayList<String[]> arrStored = new ArrayList<String[]>();
+		
+		try{
+			String line = "";
+			JSONArray list = new JSONArray();
+			fileReader = new BufferedReader(new FileReader(fileToParse));
+			dateList = new Vector<String>();
+			while ((line = fileReader.readLine()) != null) {
+				String[] tokens = line.split(DELIMITER);
+
+				if(tokens.length < columnCnt) continue;
+				if( ! isNumeric(tokens[0])) continue; //skip metadata
+				
+				//subtract mmdd list haha
+				if(tokens[0].startsWith(yearBegin)) subtractObsDateList(tokens[0]);
+				Collections.sort(dateList);
+				//subtract mmdd list haha
+				
+				arrStored.add(tokens);
+			}
+			
+			JSONArray ja = new JSONArray();
+			for(String[] arrCSV : arrStored){
+				JSONObject o = new JSONObject();
+				o.put("date", addDelimeterIntoDateStr(arrCSV[0],"yyyyMMdd"));
+				o.put("ext", arrCSV[1]);
+				o.put("rou", arrCSV[2]);
+				ja.add(o);
+			}
+			json_ice.put("LTTrend",ja);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				fileReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return json_ice;
+	}
+	
+	
+	
+	
+	private void subtractObsDateList(String token){
+		if((String.valueOf(token).length()!=0) && isNumeric((token))){
+			dateList.add(token.substring(4, 8));
+			System.out.println("MMdd: "+token.substring(4, 8)) ;
+		}
+	}
+
+	
+
+	private String getProperDateFormat(String formatStr){
+		String dFormat = "";
+		if(formatStr.length()==6){
+			dFormat = "yyyy,MM";
+		}else if(formatStr.length()==8){
+			dFormat = "yyyy,MM,dd";
+		}
+		return dFormat;
+	}
+
+
+	protected String addDelimeterIntoDateStr(String dateStr, String formatStr){
+		String formattedDate = "";
+		try {
+			Date d = new SimpleDateFormat(formatStr).parse(dateStr);
+			formattedDate = new SimpleDateFormat(getProperDateFormat(formatStr)).format(d);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return formattedDate;
+	}
+
+
+	protected boolean isNumeric(String str)  {  
+		try  {  
+			double d = Double.parseDouble(str);  
+		}  
+		catch(NumberFormatException nfe)  {  
+			return false;  
+		}  
+		return true;  
+	}
+
+
+	public static void main(String[] args) {
+		TimeSeriesJSONPopulator ice = new TimeSeriesJSONPopulator();
+		try {							
+			System.out.println("TimeSeriesJSONPopulator will make all timeseries JSON files to the /SAT/DMSP/SSMIS/ICE/ASC/CONCENT");
+			FileWriter file = new FileWriter(ice.prop.getProperty("ts_d7composit_out")); //weekly_ALL_nh.osp
+			file.write(ice.parseUsingScanner(ice.prop.getProperty("ts_d7composit_src"),12,2).toJSONString());
+			file.flush();
+			file.close();
+			System.out.println(ice.prop.getProperty("ts_d7composit_out"));
+			
+			
+			file = new FileWriter(ice.prop.getProperty("trendLongTerm_out"));
+			file.write(ice.makeLongTermTrend(ice.prop.getProperty("ts_d7composit_src"),12).toJSONString());
+			file.flush();
+			file.close();
+			System.out.println(ice.prop.getProperty("trendLongTerm_out"));
+			
+			
+			file = new FileWriter(ice.prop.getProperty("ts_d7_3p_out"));
+			file.write(ice.makeLocal3PSeries(ice.prop.getProperty("ts_d7_3p_src"),7,3).toJSONString());
+			file.flush();
+			file.close();
+			System.out.println(ice.prop.getProperty("ts_d7_3p_out"));
+			
+			System.out.println("[DONE]");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+

@@ -1,0 +1,220 @@
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Properties;
+
+/**
+ * @author 2C.me.doe
+ *
+ */
+public class ArcticTimeseriesUpsertRunner {
+	
+	
+	private Properties prop;
+	
+	private static boolean IS_DEBUG = true;
+	private static final String DELIMITER = ",";
+	private static final int COLUMN_COUNT = 12;
+//	private static final String DB_DRIVER = "oracle.jdbc.driver.OracleDriver";
+//	private static final String DB_CONNECTION = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+//	private static final String DB_USER = "arctic";
+//	private static final String DB_PASSWORD = "arctic";
+	private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+	public ArcticTimeseriesUpsertRunner() {
+		// TODO Auto-generated constructor stub
+		loadPropertyFile();
+	}
+	
+	private void loadPropertyFile(){
+		prop = new Properties();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream("/home/himasat2/SEA_ICE/EXEC4WEB/EXECUTABLE/JSONPopulator/ice.properties");
+			prop.load(fis);
+		} catch (IOException e) {
+			System.out.println("[IOException]ice.properties not found.");
+		} finally{
+			if(fis != null){
+				try{
+					fis.close();
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	final String upsertQuery = "MERGE INTO TIMESERIES ae " + //AlreadyExists
+			"USING (SELECT ? compbegindate, ? extent, ? roughness FROM dual) incoming " +
+			"ON (ae.compbegindate = incoming.compbegindate) " +
+			"WHEN MATCHED THEN " +
+			"UPDATE SET ae.extent = incoming.extent, ae.roughness = incoming.roughness " +
+			"WHEN NOT MATCHED THEN " +
+			"INSERT (ae.seriesno, ae.compbegindate, ae.extent, ae.roughness) " +
+			"VALUES (seq_nextval_on_demand('SEQ_TIMESERIES'), incoming.compbegindate, incoming.extent, incoming.roughness)";
+	
+	public static void main(String[] argv) {
+
+		try {
+
+			
+			ArcticTimeseriesUpsertRunner upsertRunner = new ArcticTimeseriesUpsertRunner();
+			upsertRunner.insertTimeseriesIntoArcticDB();
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		}catch (IOException ex) {
+			
+			System.out.println(ex.getMessage());
+			
+		}
+
+	}
+
+	private void insertTimeseriesIntoArcticDB() throws SQLException, IOException{
+
+		BufferedReader bReader = null;
+		Connection dbConnection = null;
+		PreparedStatement pstmt = null;
+		
+		ArrayList<String[]> arcticStored = new ArrayList<String[]>();
+		
+		try {
+			
+			
+//			while((currLineStr = bReader.readLine()) != null){
+//				String[] arcticSSMI = currLineStr.split(DELIMITER); 
+//				if(arcticSSMI.length < COLUMN_COUNT || ! isNumeric(arcticSSMI[0])) continue;
+//			}
+			
+			bReader = new BufferedReader(new FileReader(prop.getProperty("ts_d7composit_src")));
+			dbConnection = getDBConnection();
+			pstmt = dbConnection.prepareStatement("MERGE INTO TIMESERIES ae " + //AlreadyExists
+					"USING (SELECT ? compbegindate, ? extent, ? roughness FROM dual) incoming " +
+					"ON (ae.compbegindate = incoming.compbegindate) " +
+					"WHEN MATCHED THEN " +
+					"UPDATE SET ae.extent = incoming.extent, ae.roughness = incoming.roughness " +
+					"WHEN NOT MATCHED THEN " +
+					"INSERT (ae.seriesno, ae.compbegindate, ae.extent, ae.roughness) " +
+//					"VALUES (SEQ_TIMESERIES.nextval, incoming.compbegindate, incoming.extent, incoming.roughness)");
+					"VALUES (seq_nextval_on_demand('SEQ_TIMESERIES'), incoming.compbegindate, incoming.extent, incoming.roughness)");
+			
+			String currLineStr = "";
+			while((currLineStr = bReader.readLine()) != null){
+				String[] arcticSSMI = currLineStr.split(DELIMITER); 
+				if(arcticSSMI.length < COLUMN_COUNT || ! isNumeric(arcticSSMI[0])) continue;
+				
+				pstmt.setDate(1, java.sql.Date.valueOf(getDateInString(arcticSSMI[0])));
+				pstmt.setDouble(2, Double.parseDouble(arcticSSMI[1]));
+				pstmt.setDouble(3, Double.parseDouble(arcticSSMI[2]));
+				pstmt.addBatch();
+				
+				if(IS_DEBUG){
+//					System.out.print(getDateInString(arcticSSMI[0]) + "\t");
+//					System.out.print(arcticSSMI[1]+"\t");
+//					System.out.println(arcticSSMI[2]);
+					System.out.println("INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_TIMESERIES.nextval, "
+																								 +"to_date(\'"+ java.sql.Date.valueOf(getDateInString(arcticSSMI[0])) + "\',\'YYYY-MM-DD\'), "
+																								 + Double.parseDouble(arcticSSMI[1]) + ", " 
+																								 + Double.parseDouble(arcticSSMI[2]) + " " 
+																								 +");");
+				}
+			}
+			
+			pstmt.executeBatch();
+
+			System.out.println("[ArcticTimeseriesUpsertRunner] Records were upserted into TABLE::TIMESERIES !!");
+
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}catch (IOException io) {
+			System.out.println(io.getMessage());
+		} finally {
+			if (pstmt != null) pstmt.close();
+			if (dbConnection != null) dbConnection.close();
+			if (bReader != null) bReader.close();
+		}
+	}
+
+	
+	
+	private Connection getDBConnection() {
+		Connection dbConnection = null;
+		try {
+			Class.forName(prop.getProperty("DB_DRIVER"));
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			System.out.println(prop.getProperty("DB_DRIVER"));
+			System.out.println(prop.getProperty("DB_CONNECTION")+"\n");
+			dbConnection = DriverManager.getConnection(prop.getProperty("DB_CONNECTION"), prop.getProperty("DB_USER"),prop.getProperty("DB_PASSWORD"));
+			return dbConnection;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return dbConnection;
+	}
+	
+	
+	protected static boolean isNumeric(String str)  {  
+		try  {  
+			double d = Double.parseDouble(str);  
+		}  
+		catch(NumberFormatException nfe)  {  
+			return false;  
+		}  
+		return true;  
+	}
+
+	
+	private static String getDateInString(String dateStr){
+		if(dateStr.length()==8) return dateStr.substring(0,4) + "-" + dateStr.substring(4,6) + "-" + dateStr.substring(6,8);
+		else return dateStr;
+		/*
+		Date date = new Date();
+		if(dateStr.length()>=4){
+			date.setYear(Integer.parseInt(dateStr.substring(0,4)));
+			if(dateStr.length()>=6){
+				date.setMonth(Integer.parseInt(dateStr.substring(4,6))-1);
+				if(dateStr.length()>=8){
+					date.setDate(Integer.parseInt(dateStr.substring(6,8)));
+					if(dateStr.length()>=10){
+						date.setHours(Integer.parseInt(dateStr.substring(8,10)));
+						if(dateStr.length()>=12){
+							date.setMinutes(Integer.parseInt(dateStr.substring(10,12)));
+							if(dateStr.length()>=14){
+								date.setSeconds(Integer.parseInt(dateStr.substring(12,14)));
+							}
+						}
+					}
+				}
+			}
+		}
+		*/
+	}
+	
+	
+	
+	
+	
+
+	private static String getCurrentTimeStamp() {
+		java.util.Date today = new java.util.Date();
+		return dateFormat.format(today.getTime());
+
+	}
+
+}

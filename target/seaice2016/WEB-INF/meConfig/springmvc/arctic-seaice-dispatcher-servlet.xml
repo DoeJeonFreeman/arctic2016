@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"  
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://mybatis.org/schema/mybatis-spring 
+    	http://mybatis.org/schema/mybatis-spring.xsd">
+
+ 
+	<security:global-method-security pre-post-annotations="enabled" />
+
+
+ 
+	<context:component-scan base-package="kr.go.seaice" >
+		 
+	</context:component-scan>
+
+
+ 
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="kr.go.seaice.mybatis"/>
+	</bean>	
+	
+	 
+
+
+ 
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
+	    p:viewClass="org.springframework.web.servlet.view.JstlView"
+	    p:contentType="text/html;charset=UTF-8"
+	    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+     
+    
+
+
+ 
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/assets/**" location="/assets/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	
+	<mvc:resources mapping="/mestrap/**" location="/meResources/ice/meBoot/" />
+	<!-- 
+	<mvc:resources mapping="/repos/**" location="/meData/" />
+	 -->
+	
+	<mvc:resources mapping="/data/**" location="/arcticData/" />
+	
+
+ 
+
+	<mvc:annotation-driven />
+	
+</beans>

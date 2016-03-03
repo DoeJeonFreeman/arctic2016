@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.go.seaice.mybatis.ArcticUserMapper">
+
+	
+	    
+   	<select id="login" resultType="User">
+            SELECT userid AS userid
+                 , userpw AS userpw
+                 , name 
+                 , mobile  
+              FROM member
+             WHERE userid = #{userid}
+               AND userpw = #{userpw}
+	</select>
+	 
+
+  <insert id="insert" parameterType="User">
+    INSERT INTO member VALUES (#{userid}, #{userpw}, #{name}, #{mobile}, #{email})
+  </insert>
+
+  <insert id="insertAuthority">
+    INSERT INTO authorities VALUES (#{userid}, #{authority})
+  </insert>
+  
+
+  <update id="update" parameterType="User">
+    UPDATE member SET name = #{name}, mobile = #{mobile}, email = #{email} 
+    WHERE userid = #{userid} AND passwd = #{userpw}
+  </update>
+
+  <update id="updatePasswd">
+    UPDATE member SET userpw = #{newPasswd} 
+    WHERE passwd = #{currentPasswd} AND userid = #{userid}
+  </update>
+
+  <delete id="delete">
+    DELETE FROM member WHERE userid = #{userid}
+  </delete>
+  
+  <delete id="deleteAuthority">
+    DELETE FROM authorities
+    WHERE userid = #{userid}	
+  </delete>
+
+  <select id="selectOne" parameterType="string" resultType="User">
+    SELECT userid, passwd, name, mobile, email 
+    FROM member 
+    WHERE userid = #{userid}
+  </select>
+
+</mapper>

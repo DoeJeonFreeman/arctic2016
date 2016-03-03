@@ -1,0 +1,55 @@
+package kr.go.seaice.arctic.board;
+
+public class AttachFile {
+    private int attachFileNo;
+    private String filename;    
+    private String pseudoname; //millisec.+ext
+    public String getPseudoname() {
+		return pseudoname;
+	}
+	public void setPseudoname(String pseudoname) {
+		this.pseudoname = pseudoname;
+	}
+	private String filetype;    
+    private long filesize;    
+    private int articleNo;
+    private String userid;
+    
+    public int getAttachFileNo() {
+        return attachFileNo;
+    }
+    public void setAttachFileNo(int attachFileNo) {
+        this.attachFileNo = attachFileNo;
+    }
+    public String getFilename() {
+        return filename;
+    }
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+    public String getFiletype() {
+        return filetype;
+    }
+    public void setFiletype(String filetype) {
+        this.filetype = filetype;
+    }
+    public long getFilesize() {
+        return filesize;
+    }
+    public void setFilesize(long filesize) {
+        this.filesize = filesize;
+    }
+    public int getArticleNo() {
+        return articleNo;
+    }
+    public void setArticleNo(int articleNo) {
+        this.articleNo = articleNo;
+    }
+    public String getUserid() {
+        return userid;
+    }
+    public void setUserid(String userid) {
+        this.userid= userid;
+    }
+    
+}

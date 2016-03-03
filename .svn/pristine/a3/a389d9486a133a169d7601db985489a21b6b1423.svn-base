@@ -1,0 +1,62 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+
+
+/**
+ * @author Administrator
+ * 
+ *   diffmanrun
+ *   after convert :: copy png files into one? dir
+ *
+ */
+
+public class ConvertEPS2JPEG {
+	
+	public static String executeCmd(String command) {
+		System.out.println("==> " + command);
+		StringBuffer output = new StringBuffer();
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec(command);
+			p.waitFor(); 
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+			String line = "";			
+			while ((line = reader.readLine())!= null) {
+				output.append(line + "\n");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return output.toString();
+
+	}
+
+	private static String WHICH_CONVERT = "C:\\Program Files (x86)\\ImageMagick-6.3.9-Q16\\convert.exe";
+	private static String CONVERT_OPTIONS = " -density 100 -rotate +90 -verbose ";
+	private static String SOURCE_TARGETDIR = "e:\\eps";
+	private static String SOMEWHERE2STORE_PREDICTION_THINGS = "e:\\eps\\PRD\\";
+	
+	public static void main(String[] args) throws IOException {
+		File dir = new File(SOURCE_TARGETDIR);
+//		String[] extensions = new String[] { "eps", "png" };
+		String[] extensions = new String[] { "eps"};
+		
+		System.out.println("Getting all .txt and .jsp files in " + dir.getCanonicalPath() + " including those in subdirectories");
+		
+		List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
+		for (File file : files) {
+//			String command = CONVERT_OPTIONS + file.getCanonicalPath() + " " + file.getCanonicalPath().replace(".eps", ".png");
+			String command = CONVERT_OPTIONS + file.getCanonicalPath() + " " + SOMEWHERE2STORE_PREDICTION_THINGS +  file.getName().replace(".eps", ".png");
+			System.out.println(executeCmd(WHICH_CONVERT + command));
+		}
+	}
+	
+}

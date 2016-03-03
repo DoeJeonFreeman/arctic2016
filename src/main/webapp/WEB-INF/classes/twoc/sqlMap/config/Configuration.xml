@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<typeAliases>
+		<typeAlias type="kr.go.seaice.arctic.board.AttachFile" alias="AttachFile" />
+		<typeAlias type="kr.go.seaice.arctic.board.Comment" alias="Comment" />
+		<typeAlias type="kr.go.seaice.arctic.board.Board" alias="Board" />
+		<typeAlias type="kr.go.seaice.arctic.board.Article" alias="Article" />
+		<typeAlias type="kr.go.seaice.common.LoginVO" alias="User" />
+		<!--
+			-->
+		<typeAlias type="kr.go.seaice.common.UpToDateStuffVO" alias="UpToDateStuff" />
+		<typeAlias type="kr.go.seaice.arctic.timeseries.service.MostRecentStuffVO" alias="MostRecentStuff" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="twoc/sqlMap/mybatis/BoardMapper.xml" />
+		<mapper resource="twoc/sqlMap/mybatis/UserMapper.xml" />
+		<!--
+			-->
+		<mapper resource="twoc/sqlMap/mybatis/UpToDateStuffMapper.xml" />
+		<mapper resource="twoc/sqlMap/mybatis/MostRecentStuffMapper.xml" />
+	</mappers>
+
+</configuration>

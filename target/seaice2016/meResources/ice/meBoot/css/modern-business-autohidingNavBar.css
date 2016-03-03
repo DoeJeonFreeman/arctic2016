@@ -1,0 +1,286 @@
+/*!
+ * Start Bootstrap - Modern Business HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Global Styles */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+   /* 
+    * 
+    */
+    padding-top: 75px; 
+}
+	
+	
+	header {
+    text-align: center;
+    color: #fff;
+    background-attachment: scroll;
+    background-image: url('../assets/bg/010.jpg');
+    background-position: center center;
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+#dateChooser{
+	background-color: #006699;
+}
+
+header .intro-text {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+header .intro-text .intro-lead-in {
+	text-align: left;
+    margin-bottom: 25px;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+/*    font-style: italic; */
+	font-weight: normal;
+    line-height: 18px;
+}
+
+header .intro-text .intro-heading {
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 50px;
+    font-weight: 600;
+    line-height: 50px;
+}
+
+/*
+@media(min-width:768px) {
+    header .intro-text {
+        padding-top: 300px;
+        padding-bottom: 200px;
+    }
+
+    header .intro-text .intro-lead-in {
+        margin-bottom: 25px;
+        font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 40px;
+        font-style: italic;
+        line-height: 40px;
+    }
+
+    header .intro-text .intro-heading {
+        margin-bottom: 50px;
+        text-transform: uppercase;
+        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 75px;
+        font-weight: 700;
+        line-height: 75px;
+    }
+}
+	*/
+	
+	
+	
+	
+	.navbar-fixed-top {
+		top: 25px;
+	}
+
+	#meIntro{
+		top: 0;
+		position: fixed;
+		/*background-color: #084b8a;*/
+		background-color: #eee;
+		height: 30px;
+		width: 100%;
+		
+		z-index: 2;
+		color: #FFFFFF;
+		padding: 3px 10px;
+		margin-left: 0px;
+	}
+	
+	#bgRefs{
+	    background:url('../assets/bg/001.jpg');
+	  /*  height: 500px;*/
+	    background-size:cover;
+	}
+	
+	#meNavbar, .navbar .navbar-default{
+	    background-image:url('../assets/navi_bg_texture_dark2.png');
+	    background-size:cover;
+	    /*
+	    margin-top: 10px;
+	    margin-bottom: 0px;
+	    */
+	}
+	
+.img-portfolio {
+    margin-bottom: 30px;
+}
+
+.img-hover:hover {
+    opacity: 0.8;
+}
+
+/* Home Page Carousel */
+
+header.carousel {
+    height: 50%;
+}
+
+header.carousel .item,
+header.carousel .item.active,
+header.carousel .carousel-inner {
+    height: 100%;
+}
+
+header.carousel .fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+/* 404 Page Styles */
+
+.error-404 {
+    font-size: 100px;
+}
+
+/* Pricing Page Styles */
+
+.price {
+    display: block;
+    font-size: 50px;
+    line-height: 50px;
+}
+
+.price sup {
+    top: -20px;
+    left: 2px;
+    font-size: 20px;
+}
+
+.period {
+    display: block;
+    font-style: italic;
+}
+
+/* Footer Styles */
+
+footer {
+    margin: 50px 0;
+}
+
+
+/*doejeon*/
+
+
+
+/* light  blue-  4eaee6 */
+/* daark  blue-  006699 */
+.navbar-default {
+  background-color: #006699;
+  border-color: #006699;
+}
+.navbar-default .navbar-brand {
+  color: #ffffff;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+  color: #eeeeee;
+}
+.navbar-default .navbar-text {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: #eeeeee;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  color: #eeeeee;
+  background-color: #006699;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+  color: #eeeeee;
+  background-color: #006699;
+}
+.navbar-default .navbar-toggle {
+  border-color: #006699;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+  background-color: #006699;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #ffffff;
+}
+.navbar-default .navbar-link {
+  color: #ffffff;
+}
+.navbar-default .navbar-link:hover {
+  color: #eeeeee;
+}
+/*doejeon
+
+
+.navbar-fixed-top .nav {
+    padding: 15px 0;
+}
+
+.navbar-fixed-top .navbar-brand {
+    padding: 0 15px;
+}
+ */
+
+
+/* Responsive Styles */
+
+	@media(max-width:991px) {
+	    .customer-img,
+	    .img-related {
+	        margin-bottom: 30px;
+	    }
+	}
+
+
+
+	@media(max-width:767px) {
+	    .img-portfolio {
+	        margin-bottom: 15px;
+	    }
+	
+	    header.carousel .carousel {
+	        height: 70%;
+	    }
+	/*    
+	    .navbar-fixed-top .navbar-brand {
+        	padding: 15px 0;
+  	  	}
+	  */  
+	   /*doejeon*/
+		 .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+			color: #ffffff;
+		 }
+		 .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+		    color: #eeeeee;
+		 }
+		 .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		    color: #eeeeee;
+		    background-color: #006699;
+		 }
+   /*doejeon*/
+	}

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http auto-config="true" use-expressions="true">
+	
+	<!-- 
+	    <intercept-url pattern="/uat/**" access="permitAll" requires-channel="https"/>
+   	<intercept-url pattern="/images/**"  access="permitAll" />
+	<intercept-url pattern="/assets/**"  access="permitAll"/>
+	<intercept-url pattern="/css/**"   access="permitAll"/>
+	<intercept-url pattern="/js/**"   access="permitAll"/>
+	<intercept-url pattern="/mestrap/**"  access="permitAll"/>
+	<intercept-url pattern="/data/**"   access="permitAll"/>
+	    <intercept-url pattern="/**"  access="permitAll" requires-channel="http"/>
+	 -->
+	    
+	    
+	    
+	    
+	    
+	    
+	    <!-- 
+	    <intercept-url pattern="/users/bye_confirm" access="permitAll" />
+	    <intercept-url pattern="/users/welcome" access="permitAll" />
+	    <intercept-url pattern="/users/signUp" access="permitAll" />
+	    <intercept-url pattern="/users/login" access="permitAll" />
+	    <intercept-url pattern="/users/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')"/>
+	    
+	     -->
+	    
+	    
+	    
+	    <intercept-url pattern="/bbs/list" access="permitAll" />
+	    <intercept-url pattern="/bbs/view" access="permitAll" />
+	    <!-- 
+	    <intercept-url pattern="/bbs/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+	     -->
+	    <intercept-url pattern="/bbs/write_form" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+	    <intercept-url pattern="/bbs/modify_form" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+	    <intercept-url pattern="/bbs/write" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+		<intercept-url pattern="/bbs/modify" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+		<intercept-url pattern="/bbs/del" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+		<intercept-url pattern="/bbs/deleteComment" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+		<intercept-url pattern="/bbs/addComment" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+		<intercept-url pattern="/bbs/updateComment" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+	   <!-- 
+	    <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+	    <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+	    <intercept-url pattern="/file/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+	    -->
+	   
+	    <intercept-url pattern="/file/download" access="permitAll" />
+	
+	    <intercept-url pattern="/images/**" access="permitAll" />
+	    <intercept-url pattern="/css/**" access="permitAll" />
+	    
+	    
+	        <!-- 
+	      login-page="/uat/uia/arcticUser.do"
+	     -->
+	    <form-login 
+	    login-processing-url="/uat/me_authentication"
+	      login-page="/cmm/main/mainPage.do"
+	      authentication-failure-url="/arctic/auth/admin/login.action?msg=Login-Failed"
+	      default-target-url="/cmm/main/mainPage.do" />
+	        
+	    <logout
+	      logout-success-url="/cmm/main/mainPage.do"
+	      invalidate-session="true" />
+	    
+	    
+	    <session-management session-fixation-protection="none" />
+	    
+	    <!-- 
+	    <session-management>
+	    	<concurrency-control
+	    		max-sessions="1"
+	    		error-if-maximum-exceeded="true" />
+	    </session-management>
+	     -->
+	      
+   </http>
+
+
+<!-- 
+  <beans:bean id="shaPasswordEncoder Deniedder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>	
+ -->
+
+  <authentication-manager>
+    <authentication-provider>
+      <jdbc-user-service
+	    data-source-ref="dataSource" 
+	    users-by-username-query="select userid as userid,userpw as userpw,1 as enabled
+	    from member where userid = ?"
+	    authorities-by-username-query="select userid as userid,authority
+	    from authorities where userid = ?" />
+	    
+	  <!-- 
+	  <password-encoder ref="shaPasswordEncoder">
+	   -->  
+	  <password-encoder hash="sha-256">
+	  	<salt-source system-wide="EmiyaMulzomdao"/>
+	  </password-encoder>
+	    <!-- 
+	     -->
+    </authentication-provider>
+  </authentication-manager>
+    
+</beans:beans>
