@@ -196,8 +196,8 @@
 	          <section id="footer-other" class="col-md-5">
 	
 	            <h5 class="section-title"><i class="fa fa-link fa-fw"></i>Links</h5>
-	            <ul class="list-inline" style="padding-top:10px; padding-left:15px; line-height: 40px; "><!-- horizontal listing은 list-inline  vertical은 nav-->
-	              <li style="padding-right:25px;"><a href="http://kma.go.kr" target="_blank"><img src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_blue_antiAlias_w165.png" alt="KMA CI" width="165" /></a></li>
+	            <ul class="list-inline" style="padding-top:10px; padding-left:15px; line-height: 40px; ">
+	              <li style="padding-right:20px;"><a href="http://kma.go.kr" target="_blank"><img src="${pageContext.request.contextPath}/mestrap/assets/ci/banner_kma_kr_en.png" alt="KMA CI"  /></a></li>
 	              <li><a href="http://nmsc.kma.go.kr" target="_blank"><img src="${pageContext.request.contextPath}/mestrap/assets/ci/nmsc_ci_creGothicB_sm.png" alt="NMSC CI" width="181"/></a></li>
 	            </ul>
 	          </section>

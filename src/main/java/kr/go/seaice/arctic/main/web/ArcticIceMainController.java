@@ -48,16 +48,16 @@ public class ArcticIceMainController {
 	public String getMainView(HttpServletRequest request, ModelMap model)
 	  throws Exception{
 		//notice x last 5
-        int numPerPage = 5;
-        int pagePerBlock = 5;
+        int numPerPage = 3;
+        int pagePerBlock = 3;
         int totalRecord = boardService.getTotalRecord("notice", "");
         PagingHelper pagingHelper = new PagingHelper(totalRecord, 1, numPerPage, pagePerBlock);
         boardService.setPagingHelper(pagingHelper);
         List<Article> list = boardService.getArticleList("notice", "");
         model.addAttribute("notices", list);
-        //notice x last 5
-//        UpToDateStuffVO stuff =  timeseriesService.selectLatestStuff("01CON");
-//        model.addAttribute("latestOne", stuff);
+//        System.out.println("[numPerPage] " + numPerPage);
+//        System.out.println("[noticeList.length] " + list.size());
+        //notice x last 3
         MostRecentStuffVO stuff =  timeseriesService.retrievingIfArcticDataExists();
         model.addAttribute("mostRecentStuff", stuff);
 		return "main/MainViewArctic";

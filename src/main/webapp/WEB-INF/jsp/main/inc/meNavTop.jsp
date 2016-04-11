@@ -57,7 +57,7 @@
               				</c:when>	
 		    				<c:otherwise>
 							<!-- 
-              					<li><a href="${pageContext.request.contextPath}/uat/uia/arcticUser.do"><i class="fa fa-sign-in fa-fw"></i> Log in</a></li>
+              					<li><a href="${pageContext.request.contextPath}/path/to/somewhere.do"><i class="fa fa-sign-in fa-fw"></i> Log in</a></li>
 							 -->
 		    				
 						        <li><a onclick=""><i class="fa fa-cog fa-spin"></i> "${check}" 님</a> 관리자로 로그인하셨습니다.</li>
@@ -69,8 +69,17 @@
       	 	 </div>
       	 	 
 	         <div class="hidden-xs row vcenter">
-	           	<a href="${pageContext.request.contextPath}/cmm/main/mainPage.do" id="arcticSysTitle" style="font-size:20px; font-weight:bold; text-decoration:none;">
-	           		<img src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_kor_hor_antiAlias_w220.png" alt="kma.go.kr logo" class="logo-eclipse-default" width="220px;"  style="padding-bottom:10px;"/>&nbsp; 북극해빙감시시스템
+	           	<a href="${pageContext.request.contextPath}/cmm/main/mainPage.do" id="arcticSysTitle" style="color:#555555 ;font-size:20px; font-weight:bold; text-decoration:none;">
+	           	<!-- 
+	           		<img src="${pageContext.request.contextPath}/mestrap/assets/ci/logo_1.gif" alt="kma.go.kr logo"  width="105px;"  style="padding-bottom:10px;"/>&nbsp; 북극해빙감시시스템
+	           		<img src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_main_ci_kr_xs.png" alt="kma.go.kr logo"  width="223px;"  style="padding-bottom:5px;"/>&nbsp; 북극해빙감시시스템
+	           		<img src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_main_ci_kr_xs2.png" alt="kma.go.kr logo"  width="207px;"  style="padding-bottom:5px;"/>&nbsp; 북극해빙감시시스템
+	           		
+	           		
+	           		<img src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_main_ci_kr_xs_krOnly.png" alt="kma.go.kr logo"  width="124px;"  style="padding-bottom:5px;"/>&nbsp; 북극해빙감시시스템
+	           		<img src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_main_ci_kr.png" alt="kma.go.kr logo"  width="223px;"  style="padding-bottom:10px;"/>&nbsp; 북극해빙감시시스템
+	           	 -->
+	           		<img src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_main_ci_kr_en.png" alt="kma.go.kr logo"  width="250px;"  style="padding-bottom:5px;"/>&nbsp; 북극해빙감시시스템
 	       	 	</a>              
 	         </div>		    
 	</div>
@@ -89,7 +98,7 @@
              </button>
              <!-- navbar-brand visible-xs -->
              <a class="navbar-brand visible-xs" href="${pageContext.request.contextPath}/cmm/main/mainPage.do">
-             	<img style="max-width:330px; margin-top: -12px;" src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_kr_460by64.png">
+             	<img style="max-width:330px; margin-top: -12px;" src="${pageContext.request.contextPath}/mestrap/assets/ci/kma_ci_with_sysName.png">
            	 </a>
          </div>
          <!-- Collect the nav links, forms, and other content for toggling -->

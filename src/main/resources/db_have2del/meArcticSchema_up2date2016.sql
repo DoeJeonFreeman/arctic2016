@@ -1,4 +1,4 @@
-﻿--create user arctic identified by arctic;
+--create user arctic identified by arctic;
 --grant connect, resource, unlimited tablespace to arctic;
 --GRANT CONNECT,RESOURCE,UNLIMITED TABLESPACE TO arctic IDENTIFIED BY arctic;
 --ALTER USER arctic DEFAULT TABLESPACE USERS;
@@ -14,7 +14,7 @@ create table member (
     email varchar2(100),
     constraint PK_ARCTIC_USER PRIMARY KEY(userid)
 );
-INSERT INTO member VALUES ('nmsc','nmsc','Administrator','010-1245-1245','seaice@korea.kr');
+INSERT INTO member VALUES ('nmsc','goqld1357!','Administrator','010-1245-1245','seaice@korea.kr');
 
 create table board (
     boardcd varchar2(20),
@@ -113,7 +113,7 @@ create table timeseries(
 
 /**
  * timeseriesUpsertRunner.java
- * 
+ * */
 INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_TIMESERIES.nextval, to_date('2007-01-01','YYYY-MM-DD'), 14.2006, 0.473341 );
 INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_TIMESERIES.nextval, to_date('2007-01-08','YYYY-MM-DD'), 14.3694, 0.471682 );
 INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_TIMESERIES.nextval, to_date('2007-01-15','YYYY-MM-DD'), 14.6687, 0.483604 );
@@ -406,7 +406,7 @@ INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_T
 INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_TIMESERIES.nextval, to_date('2012-07-23','YYYY-MM-DD'), 7.42875, 0.328379 );
 INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_TIMESERIES.nextval, to_date('2012-07-30','YYYY-MM-DD'), 6.78687, 0.31679 );
 INSERT into TIMESERIES(seriesno, compbegindate, extent, roughness) VALUES (SEQ_TIMESERIES.nextval, to_date('2012-08-06','YYYY-MM-DD'), 6.04375, 0.319185 );
-*/
+/**/
 
 
 CREATE OR REPLACE
@@ -417,7 +417,6 @@ IS
 BEGIN
   EXECUTE IMMEDIATE 'select ' || p_seq_name || '.nextval from dual'
      INTO v_seq_val;
- 
   RETURN v_seq_val;
 END seq_nextval_on_demand;
 /
@@ -446,4 +445,7 @@ commit;
 
 alter table attachefile modify(filetype varchar2(100)); 
 alter table member modify userpw varchar2(200);
-update member set userpw='350fd3fadb4fa4b97c12b1d42b00437618d4413e2248ac589926e894f866cfd6' where userid='nmsc'
+/** 
+ * 350fd3fadb4fa4b97c12b1d42b00437618d4413e2248ac589926e894f866cfd6 == '해빙1357!'
+ * */
+update member set userpw='350fd3fadb4fa4b97c12b1d42b00437618d4413e2248ac589926e894f866cfd6' where userid='nmsc';
