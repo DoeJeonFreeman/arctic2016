@@ -33,11 +33,9 @@ public interface ArcticIceLoginService {
 	  @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	  public int changePasswd(String currentPasswd, String newPasswd, String userid);
 
-	  //탈퇴
 	  @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER') and #user.userid == principal.username")
 	  public void bye(LoginVO user);
 
-	  //회원찾기
 	  @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	  public LoginVO getUser(String userid);
 }

@@ -130,7 +130,7 @@
                      <a href="#LINK" onclick="javascript:fn_main_headPageAction('31','arctic/passage.do')" >북극항로</a>
                  </li>
                  <li class="dropdown">
-                     <a  class="dropdown-toggle" data-toggle="dropdown">게시판 <b class="caret"></b></a>
+                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown">게시판 <b class="caret"></b></a>
                      <ul class="dropdown-menu" id="meDropdown-bbs">
                          <li>
                          	<a href= '${pageContext.request.contextPath}/bbs/list?boardCd=notice&curPage=1'>공지사항</a>

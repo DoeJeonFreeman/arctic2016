@@ -1073,6 +1073,12 @@
 		<div align="center">
 		
 			<div class="row">
+            	<div class="col-lg-12" style="padding-top: 10px; margin-bottom: -0px; font-size: 12px;">
+               		<a href="${pageContext.request.contextPath}/arctic/passage.do" style="float:right;" >
+               		상세해역보기&nbsp;<i class="fa fa-caret-right"></i>
+					</a>
+            	</div>
+            	
             	<div class="col-lg-12">
                		<h4 class="page-header">바렌츠해(Barents Sea)의 해빙변화</h4>
             	</div>
@@ -1131,6 +1137,14 @@
 	            <div class="col-md-7" id="uld" style="height: 350px">
           	  	</div>
 			</div>		
+			
+			
+			<div class="col-lg-12" style="padding-top: 10px; font-size: 12px;">
+           		<a href="${pageContext.request.contextPath}/arctic/passage.do" style="float:right;" >
+               		상세해역보기&nbsp;<i class="fa fa-caret-right"></i>
+				</a>
+           	</div>
+			
 			
 		 	
 	 	</div>
