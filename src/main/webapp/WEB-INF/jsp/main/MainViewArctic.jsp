@@ -100,7 +100,7 @@
     	        		<h4 class="text-left" style="white-space: nowrap;"> ${mostRecentStuff.compbegindate4Main}</h4>
                 	</div>
                 	
-                	<div class="col-md-3">
+                	<div class="col-md-3" >
 	                	<div class="">
 							<div align="center" class=""> 
 								<div><h4>SSMIS 해빙 면적</h4></div>
@@ -119,7 +119,7 @@
 						</div>
                 	</div>
                 	
-                	<div class="col-md-3">
+                	<div class="col-md-3"  style=" min-height: 280px;">
 	                	<div class="">
 							<div align="center" class=""> 
 								<div><h4 style="white-space: nowrap;">SSMIS 해빙 표면거칠기</h4></div>
@@ -186,14 +186,21 @@
 				</ul>
             </section>
             
+            <!-- 
+	            notice 5
+	            contact us 2 
+	            links 2 
+            -->
+            <!--  
            	 <section id="footer-useful-links" class="col-md-2">
 	            <h5 class="section-title"><i class="fa fa-envelope fa-fw"></i>Contact Us</h5>
 	            <ul class="nav">
 	              <li><a href="">seaice_kma@korea.kr</a></li>
 	            </ul>
 	          </section>
+             -->
 	
-	          <section id="footer-other" class="col-md-5">
+	          <section id="footer-other" class="col-md-5 col-md-offset-1">
 	
 	            <h5 class="section-title"><i class="fa fa-link fa-fw"></i>Links</h5>
 	            <ul class="list-inline" style="padding-top:10px; padding-left:15px; line-height: 40px; ">

@@ -67,7 +67,7 @@ public class ArcticIceMainController {
 	public String getPredictiveIceModel(HttpServletRequest request, ModelMap model) throws Exception{
 		UpToDateStuffVO stuff =  timeseriesService.selectLatestStuff("02PRE");
         model.addAttribute("mostRecentStuff", stuff);
-		return "arctic/ext_predictive";
+		return "arctic/monthlyPrediction";
 	}
 	
 	@RequestMapping(value = "arctic/passage.do")

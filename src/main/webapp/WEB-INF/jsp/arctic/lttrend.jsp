@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-	<title>해역별분포</title>
+	<title>장기해빙변화</title>
 	
 	
 	<script src="<c:url value="/js/jquery/jquery-1.9.1.js"/>"></script>	
@@ -59,6 +59,14 @@
 
 	 
 	function subtractPointData(someList, targetDiv){
+		e00 = [];
+		e01 = [];
+		e02 = [];
+		e03 = [];
+		e04 = [];
+		e05 = [];
+		e06 = [];
+		
 		e07 = [];
 		e08 = [];
 		e09 = [];
@@ -75,6 +83,14 @@
 			var mm = parseInt(dateStrArr[0]);
 			var dd = parseInt(dateStrArr[1]);
 
+			e00.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e00) ]);
+			e01.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e01) ]);
+			e02.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e02) ]);
+			e03.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e03) ]);
+			e04.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e04) ]);
+			e05.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e05) ]);
+			e06.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e06) ]);
+			
 			e07.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e07) ]);
 			e08.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e08) ]);
 			e09.push([Date.UTC(thisYear,mm -1, dd),parseNumericVal(someList[i].e09) ]);
@@ -94,16 +110,23 @@
 		}else if(targetDiv == 'uld'){
 			_chart = $('#uld').highcharts();				
 		}
-		_chart.series[0].setData(e07); 
-		_chart.series[1].setData(e08); 
-		_chart.series[2].setData(e09); 
-		_chart.series[3].setData(e10); 
-		_chart.series[4].setData(e11); 
-		_chart.series[5].setData(e12); 
-		_chart.series[6].setData(e13); 
-		_chart.series[7].setData(e14); 
-		_chart.series[8].setData(e15); 
-		_chart.series[9].setData(currYear); 
+		_chart.series[0].setData(e00); 
+		_chart.series[1].setData(e01); 
+		_chart.series[2].setData(e02); 
+		_chart.series[3].setData(e03); 
+		_chart.series[4].setData(e04); 
+		_chart.series[5].setData(e05); 
+		_chart.series[6].setData(e06); 
+		_chart.series[7].setData(e07); 
+		_chart.series[8].setData(e08); 
+		_chart.series[9].setData(e09); 
+		_chart.series[10].setData(e10); 
+		_chart.series[11].setData(e11); 
+		_chart.series[12].setData(e12); 
+		_chart.series[13].setData(e13); 
+		_chart.series[14].setData(e14); 
+		_chart.series[15].setData(e15); 
+		_chart.series[16].setData(currYear); 
 	}
 	
 	//missing val  <-assign null
@@ -248,7 +271,8 @@
 
 	        	
 	            title: {
-	                text: '해빙 면적 (x10^6 ㎢)',
+	            	useHTML: true,
+	                text: "해빙 면적 (x10<sup>6</sup> ㎢)",
                 	style : {
                 		font:'normal 12px NanumGothic'
 						//color : '#000000'
@@ -358,38 +382,74 @@
 	        },
 	        series: [//07==redSolid prevYear==blueSolid thisYera==blackSolid
 		 	            {
-		 	             name: '\'07',
-		 	             color: '#ff0000' ,
+		 	             name: '\'00',
+		 	             color: '#0099AD' , //aqua
+		 	             dashStyle : 'Dash',
 		     	         connectNulls:false, data: []},
+		 	        	{ 
+		     	          name: '\'01',
+		     	          color: '#ff00ff' , //fuchsia
+		 	           	  dashStyle : 'Dash',
+		 	           	  connectNulls:false, data: []}, 
+		 	        	{name: '\'02',
+		 	           		color: '#808080' ,//gray	  
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'03',
+		 	           	color: '#008000' ,// moss green
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'04',
+		 	           	color: '#00ff00' , // lime
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'05',
+		 	           	  color: '#800000' , //maroon
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'06',
+		 	           	color: '#000080' ,// navy
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'07',
+			 	             color: '#ff0000' ,   // RED 
+		 	           	connectNulls:false, data: []}, 
 		 	        	{name: '\'08',
+		 	           	color: '#808000' ,  // olive
 		 	           	   dashStyle : 'Dash',
 		 	           	connectNulls:false, data: []}, 
 		 	        	{name: '\'09',
+		 	           	color: '#800080' , // purple
 		 	           	   dashStyle : 'Dash',
 		 	           	connectNulls:false, data: []}, 
 		 	        	{name: '\'10',
+		 	           	color: '#74828a' ,//halo silver
 		 	           	   dashStyle : 'Dash',
 		 	           	connectNulls:false, data: []}, 
 		 	        	{name: '\'11',
+		 	           	color: '#008080' , // teal
 		 	           	   dashStyle : 'Dash',
 		 	           	connectNulls:false, data: []}, 
 		 	        	{name: '\'12',
+		 	           	color: '#ffd436' , // yellow
 		 	           	   dashStyle : 'Dash',
 		 	           	connectNulls:false, data: []}, 
 		 	        	{name: '\'13',
-		 	           	   dashStyle : 'Dash',
+		 	           	color: '#D94C28' ,   //mandarin
+		 	           	   dashStyle : 'Dash', 
 		 	           	connectNulls:false, data: []}, 
 		 	        	{name: '\'14',
+		 	           	color: '#00C4A7' ,    //00C4A7 minty green? 
 		 	           	dashStyle : 'Dash',
 		 	            connectNulls:false, data: []}, 
 		 	           {name: '\'15',
-		 	           	 color: '#0000ff', //#0000cc            	 
+		 	           	 color: '#0000ff', // BLUE        	 
 		 	            connectNulls:false, data: []}, 
 		 	           {name: '\'16',
-		 	           	 color: '#000000', //#0000cc            	 
+		 	           	 color: '#000000', // BLACK            	 
 		 	            connectNulls:false, data: []}, 
 		 	            {name: ' 모두 선택',
-		 	           	 color: '#ffffff', //#0000cc            	 
+		 	           	 color: '#ffffff', 	 
 		 	           	connectNulls:false, data: []}]
  	          ,legend: {
                 layout: 'horizontal',
@@ -599,40 +659,76 @@
 	                }
 	        },
 	        series: [//07==redSolid prevYear==blueSolid thisYera==blackSolid
- 	            {
- 	             name: '\'07',
- 	             color: '#ff0000' ,
-     	         connectNulls:false, data: []},
- 	        	{name: '\'08',
- 	           	   dashStyle : 'Dash',
- 	           	connectNulls:false, data: []}, 
- 	        	{name: '\'09',
- 	           	   dashStyle : 'Dash',
- 	           	connectNulls:false, data: []}, 
- 	        	{name: '\'10',
- 	           	   dashStyle : 'Dash',
- 	           	connectNulls:false, data: []}, 
- 	        	{name: '\'11',
- 	           	   dashStyle : 'Dash',
- 	           	connectNulls:false, data: []}, 
- 	        	{name: '\'12',
- 	           	   dashStyle : 'Dash',
- 	           	connectNulls:false, data: []}, 
- 	        	{name: '\'13',
- 	           	   dashStyle : 'Dash',
- 	           	connectNulls:false, data: []}, 
- 	        	{name: '\'14',
- 	           	dashStyle : 'Dash',
- 	            connectNulls:false, data: []}, 
- 	           {name: '\'15',
- 	           	 color: '#0000ff', //#0000cc            	 
- 	            connectNulls:false, data: []}, 
- 	           {name: '\'16',
- 	           	 color: '#000000', //#0000cc            	 
- 	            connectNulls:false, data: []}, 
- 	            {name: ' 모두 선택',
- 	           	 color: '#ffffff', //#0000cc            	 
- 	           	connectNulls:false, data: []}]
+	                 {
+		 	             name: '\'00',
+		 	             color: '#0099AD' , //aqua
+		 	             dashStyle : 'Dash',
+		     	         connectNulls:false, data: []},
+		 	        	{ 
+		     	          name: '\'01',
+		     	          color: '#ff00ff' , //fuchsia
+		 	           	  dashStyle : 'Dash',
+		 	           	  connectNulls:false, data: []}, 
+		 	        	{name: '\'02',
+		 	           		color: '#808080' ,//gray	  
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'03',
+		 	           	color: '#008000' ,// moss green
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'04',
+		 	           	color: '#00ff00' , // lime
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'05',
+		 	           	  color: '#800000' , //maroon
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'06',
+		 	           	color: '#000080' ,// navy
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'07',
+			 	             color: '#ff0000' ,   // RED 
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'08',
+		 	           	color: '#808000' ,  // olive
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'09',
+		 	           	color: '#800080' , // purple
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'10',
+		 	           	color: '#74828a' ,//halo silver
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'11',
+		 	           	color: '#008080' , // teal
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'12',
+		 	           	color: '#ffd436' , // yellow
+		 	           	   dashStyle : 'Dash',
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'13',
+		 	           	color: '#D94C28' ,   //mandarin
+		 	           	   dashStyle : 'Dash', 
+		 	           	connectNulls:false, data: []}, 
+		 	        	{name: '\'14',
+		 	           	color: '#00C4A7' ,    //00C4A7 minty green? 
+		 	           	dashStyle : 'Dash',
+		 	            connectNulls:false, data: []}, 
+		 	           {name: '\'15',
+		 	           	 color: '#0000ff', // BLUE        	 
+		 	            connectNulls:false, data: []}, 
+		 	           {name: '\'16',
+		 	           	 color: '#000000', // BLACK            	 
+		 	            connectNulls:false, data: []}, 
+		 	            {name: ' 모두 선택',
+		 	           	 color: '#ffffff', 	 
+		 	           	connectNulls:false, data: []}]
           ,legend: {
                 layout: 'horizontal',
                 align: 'left',
@@ -844,7 +940,8 @@ Highcharts.theme = {
 
 	        	
 	            title: {
-	                text: '해빙 면적 (x10^6 ㎢)',
+	            	useHTML: true,
+	                text: "해빙 면적 (x10<sup>6</sup> ㎢)",
                 	style : {
                 		font:'normal 12px NanumGothic'
 						//color : '#000000'
@@ -929,12 +1026,13 @@ Highcharts.theme = {
 		 	       	////////////////////////////////////////////////////////////////	 	           
 			 	           {
 			 	               type: 'line',
-			 	               name: '연평균<br/>(-0.1756)',
+			 	               name: '연평균<br/>(-0.0795)',
 			 	               showInLegend: true,
 			 	          	   color: '#000000',            	 
 			 	           	   dashStyle : 'Dash',
 			 	           	   lineWidth : 0.8,
-			 	               data: [[Date.UTC(2007,0,1), 11.9317], [Date.UTC(thisYear-1,11,24), 10.5627]], //ext 2016 avg
+//			 	               data: [[Date.UTC(2007,0,1), 11.9317], [Date.UTC(thisYear-1,11,24), 10.5627]], //ext 2016 avg
+			 	               data: [[Date.UTC(1988,0,1), 13.4824], [Date.UTC(thisYear-1,11,24), 11.3365]], //ext 2016 avg
 			 	               marker: {
 			 	                   enabled: false
 			 	               },
@@ -947,12 +1045,13 @@ Highcharts.theme = {
 			 	           },
 			 	           {
 			 	               type: 'line',
-			 	               name: '여름평균(9월)<br/>(-0.0074)',
+			 	               name: '여름평균(9월)<br/>(-0.1140)',
 			 	               showInLegend: true,
 			 	              color: '#CC0000',            	 
 			 	           	   dashStyle : 'Dash',
 			 	           	lineWidth : 0.8,
-			 	               data: [[Date.UTC(2007,0,1), 5.0735], [Date.UTC(thisYear-1,11,24), 5.0141]], //ext 2016 sep
+//			 	               data: [[Date.UTC(2007,0,1), 5.0735], [Date.UTC(thisYear-1,11,24), 5.0141]], //ext 2016 sep
+			 	               data: [[Date.UTC(1988,0,1), 8.17285], [Date.UTC(thisYear-1,11,24), 5.0946]], //ext 2016 sep
 			 	               marker: {
 			 	                   enabled: false
 			 	               },
@@ -965,12 +1064,13 @@ Highcharts.theme = {
 			 	           },
 			 	           {
 			 	               type: 'line',
-			 	               name: '겨울평균(3월)<br/>(-0.1035)',
+			 	               name: '겨울평균(3월)<br/>(-0.0547)',
 			 	               showInLegend: true,
 			 	              color: '#0000ff',            	 
 			 	           	   dashStyle : 'Dash',
 			 	           	lineWidth : 0.8,
-			 	               data: [[Date.UTC(2007,0,1), 16.0221], [Date.UTC(thisYear-1,11,24), 15.1941]],//ext 2016 mar
+	//		 	               data: [[Date.UTC(2007,0,1), 16.0221], [Date.UTC(thisYear-1,11,24), 15.1941]],//ext 2016 mar
+			 	               data: [[Date.UTC(1988,0,1), 17.4215], [Date.UTC(thisYear-1,11,24), 15.9437]],//ext 2016 mar
 			 	               marker: {
 			 	                   enabled: false
 			 	               },
@@ -1170,12 +1270,13 @@ Highcharts.theme = {
 		 	          	////////////////////////////////////////////////////////////////	 	           
 			 	           {
 			 	               type: 'line',
-			 	               name: '연평균<br/>(0.0005)',
+			 	               name: '연평균<br/>(-0.0006)',
 			 	               showInLegend: true,
 			 	          	   color: '#000000',            	 
 			 	           	   dashStyle : 'Dash',
 			 	           	   lineWidth : 0.8,
-			 	               data: [[Date.UTC(2007,0,1), 0.4262], [Date.UTC(thisYear-1,11,24), 0.4304]], //rou 2016 avg
+//			 	               data: [[Date.UTC(2007,0,1), 0.4262], [Date.UTC(thisYear-1,11,24), 0.4304]], //rou 2016 avg
+			 	               data: [[Date.UTC(1988,0,1), 0.410917], [Date.UTC(thisYear-1,11,24), 0.395702]], //rou 2016 avg
 			 	               marker: {
 			 	                   enabled: false
 			 	               },
@@ -1188,12 +1289,13 @@ Highcharts.theme = {
 			 	           },
 			 	           {
 			 	               type: 'line',
-			 	               name: '여름평균(9월)<br/>(0.0009)',
+			 	               name: '여름평균(9월)<br/>(-0.0010)',
 			 	               showInLegend: true,
 			 	              color: '#CC0000',            	 
 			 	           	   dashStyle : 'Dash',
 			 	           		lineWidth : 0.8,
-			 	               data: [[Date.UTC(2007,0,1), 0.3527], [Date.UTC(thisYear-1,11,24), 0.3601]], //rou 2016 sep
+//			 	               data: [[Date.UTC(2007,0,1), 0.3527], [Date.UTC(thisYear-1,11,24), 0.3601]], //rou 2016 sep
+			 	               data: [[Date.UTC(1988,0,1), 0.355684], [Date.UTC(thisYear-1,11,24), 0.329151]], //rou 2016 sep
 			 	               marker: {
 			 	                   enabled: false
 			 	               },
@@ -1206,12 +1308,13 @@ Highcharts.theme = {
 			 	           },
 			 	           {
 			 	               type: 'line',
-			 	               name: '겨울평균(3월)<br/>(0.0008)',
+			 	               name: '겨울평균(3월)<br/>(0.0004)',
 			 	               showInLegend: true,
 			 	              color: '#0000ff',            	 
 			 	           	   dashStyle : 'Dash',
 			 	           	lineWidth : 0.8,
-			 	               data: [[Date.UTC(2007,0,1), 0.4802], [Date.UTC(thisYear-1,11,24), 0.4863]], //rou 2016 mar
+//			 	               data: [[Date.UTC(2007,0,1), 0.4802], [Date.UTC(thisYear-1,11,24), 0.4863]], //rou 2016 mar
+			 	               data: [[Date.UTC(1988,0,1), 0.440078], [Date.UTC(thisYear-1,11,24), 0.451781]], //rou 2016 mar
 			 	               marker: {
 			 	                   enabled: false
 			 	               },

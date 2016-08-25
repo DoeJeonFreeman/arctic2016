@@ -66,18 +66,6 @@
     <script src="<c:url value="/js/scalable/panzoom/jquery.panzoom.js"/>"></script>
     <script src="<c:url value="/js/scalable/panzoom/jquery.mousewheel.js"/>"></script>
     
-    <!-- spinner -->
-	<!-- 
-    <link rel="stylesheet" href="<c:url value="/js/spinner/css/custom.css"/>">
-	<link rel="stylesheet" href="<c:url value="/js/spinner/css/iosOverlay.css"/>">
-	<link rel="stylesheet" href="<c:url value="/js/spinner/css/prettify.css"/>">
-	<script src="<c:url value="/js/spinner/js/modernizr-2.0.6.min.js"/>"></script>
-	<script src="<c:url value="/js/spinner/js/iosOverlay.js"/>"></script> 
-	<script src="<c:url value="/js/spinner/js/spin.min.js"/>"></script> 
-	<script src="<c:url value="/js/spinner/js/prettify.js"/>"></script> 
-	 -->
-    
-
 
 	<style>
 	     #inverted-contain .panzoom { width: 100%; height: 100%; }
@@ -184,7 +172,7 @@
     					var mRecent = new Date(dStrArr[0],dStrArr[1]-1,dStrArr[2]);
     					meRequest(moment(mRecent));
     		      	}else{
-	        			changeImgSrc("<c:out value="${sdist.compbegindateInString}" />","<c:out value="${sdist.compbegindate4View}" />" ,"<c:out value="${sdist.extentInkmSquared}" />");
+	        			changeImgSrc("<c:out value="${sdist.compbegindateInString}" />","<c:out value="${sdist.compbegindate4View}" />" ,"<c:out value="${sdist.extentInkmSquared}" />","<c:out value="${sdist.sensor}" />");
     		      	}
         		});
         	
@@ -198,7 +186,7 @@
            		    /* "endDate":moment().subtract(0, 'days'),*/
            		    "startDate": "<c:out value="${sdist.compbegindate4Cal}" />", 
            		    "endDate" : "<c:out value="${sdist.compbegindate4Cal}" />",
-           		    "minDate": "2007-01-01",
+           		    "minDate": "1988-01-08",
            		    "maxDate": "<c:out value="${sdist.compbegindate4Cal}" />"     //today
            		    
            		}, function(start, end, label) {
@@ -308,7 +296,7 @@
 	            <div class="col-md-6">
 	            	<div class="">
 						<div align="center" class="dRangeStr_SSMIS"> 
-							<div><h4>SSMIS 해빙 면적</h4></div>
+							<div class="sensor_ext"><h4>${sdist.sensor} 해빙 면적</h4></div>
 							<p>${sdist.compbegindate4View}</p>
 						</div>
 						<p>
@@ -327,7 +315,7 @@
 	            <div class="col-md-6" id="djd">
 	            	<div class="">
 						<div align="center" class="dRangeStr_SSMIS"> 
-							<div><h4>SSMIS 해빙 표면거칠기</h4></div>
+							<div class="sensor_rou"><h4>${sdist.sensor} 해빙 표면거칠기</h4></div>
 							<p>${sdist.compbegindate4View}</p>
 						</div>
 						<p>
@@ -395,7 +383,7 @@
 			 	  	idx = ui.value;
 			 	  	idx *= 1; 
 			 	  	var iceObj = iceList[idx];
-        	        changeImgSrc(iceObj.compbegindateInString, iceObj.compbegindate4View, iceObj.extentInkmSquared);
+        	        changeImgSrc(iceObj.compbegindateInString, iceObj.compbegindate4View, iceObj.extentInkmSquared, iceObj.sensor);
 			    },
 		      });	
 	        
@@ -442,7 +430,7 @@
      			  cache: false,    
      			  data: "selectedDate="+meDateObj.format('YYYY-MM-DD'),
      			  success: function(response){
-        	        changeImgSrc(response.compbegindateInString, response.compbegindate4View, response.extentInkmSquared);
+        	        changeImgSrc(response.compbegindateInString, response.compbegindate4View, response.extentInkmSquared, response.sensor);
         	        
         	        var isInvisible =  ! $("#sliderContainer").is(":visible");
         	        //console.log('labeledSlider isInvisible:: ' + isInvisible);
@@ -451,7 +439,7 @@ if(!isInvisible) meRequestList(meDateObj,meDateObj);
         	        
      			  },
      			  error: function(){      
-     			   alert('Error while request..');
+     			  // err;
      			  },
      			  cache:false
    			 });
@@ -538,9 +526,11 @@ if(!isInvisible) meRequestList(meDateObj,meDateObj);
 		}
 		
 		
-		function changeImgSrc(dateStr,dRangeStr,extValInKmSquared){
+		function changeImgSrc(dateStr,dRangeStr,extValInKmSquared, sensor){
 	        $("#img_ssmi_ext").attr("src","<c:url value='/data/IMG/SEAICE/Y'/>" + dateStr.substring(0,4) + "/dmsp_ssmis_ice_"+dateStr+".png");
 	        $("#img_ssmi_rou").attr("src","<c:url value='/data/IMG/ROUGH/Y'/>" + dateStr.substring(0,4) + "/dmsp_ssmis_rou_"+dateStr+".png");
+$('.sensor_ext h4').text(sensor + " 해빙 면적"); 
+$('.sensor_rou h4').text(sensor + " 해빙 표면거칠기"); 
 	        $('.dRangeStr_SSMIS p').text(dRangeStr); //or use .html(<strong>textGoesHere</strong>') instead haha
 	        $('#extInKm span').text(extValInKmSquared);
 	        currDateString = dateStr;
@@ -557,7 +547,7 @@ if(!isInvisible) meRequestList(meDateObj,meDateObj);
 		}
 		
 		
-		var minDate = new Date(2007,0,01);
+		var minDate = new Date(1988,0,8);
 		var recentStuffArr = "${sdist.compbegindate4Cal}".split('-');
 		var mostRecentDate = new Date(recentStuffArr[0],recentStuffArr[1]-1,recentStuffArr[2]);
 		/* console.log(mostRecentDate instanceof Date && !isNaN(mostRecentDate.valueOf())) */
@@ -569,13 +559,13 @@ if(!isInvisible) meRequestList(meDateObj,meDateObj);
 			var dateTarget = getRetrievalInterval(whichOperator,currDate);
 			
 			if(dateTarget.getTime() < minDate.getTime()){
-				alert("자료 제공 범위는 2007-01-01 부터  ${sdist.compbegindate4Cal}까지 입니다.");
+				alert("자료 제공 범위는 1988-01-08 부터  ${sdist.compbegindate4Cal}까지 입니다.");
 				$('#meDemo').data('daterangepicker').setStartDate(moment(minDate).format('YYYY-MM-DD'));
    				$('#meDemo').data('daterangepicker').setEndDate(moment(minDate).format('YYYY-MM-DD'));
    				$('#meDemo').val(moment(minDate).format('YYYY-MM-DD'));
 				meRequest(moment(minDate));
 			}else if(dateTarget.getTime() > mostRecentDate.getTime()){
-				alert("자료 제공 범위는 2007-01-01 부터  ${sdist.compbegindate4Cal}까지 입니다.");
+				alert("자료 제공 범위는 1988-01-08 부터  ${sdist.compbegindate4Cal}까지 입니다.");
 				$("#btn_getMostRecentOne").trigger( "click" );
 			}else{
 				$('#meDemo').data('daterangepicker').setStartDate(moment(dateTarget).format('YYYY-MM-DD'));
@@ -693,9 +683,9 @@ if(!isInvisible) meRequestList(meDateObj,meDateObj);
 		  $('#icePopup').load(function(){
 //		     $('#panzoomDialog').modalmanager('removeLoading');
 		  }).attr('src',path);
-
 		  
-		  $('#popupTitle').text('SSMIS 해빙 면적('+titleString+')');
+//		  $('#popupTitle').text('SSMIS 해빙 면적('+titleString+')');
+		  $('#popupTitle').text($('.sensor_ext h4').html() + '('+titleString+')');
 		  $('#meReset').click();
 //		  $('#panzoomDialog').modalmanager('loading');
 		  $('#panzoomDialog').modal('show');
@@ -708,7 +698,8 @@ if(!isInvisible) meRequestList(meDateObj,meDateObj);
 		  $('#icePopup').load(function(){
 			  //$('#panzoomDialog').modalmanager('removeLoading');
 		  }).attr('src',path);
-		  $('#popupTitle').text('SSMIS 해빙 표면거칠기('+titleString+')');
+//		  $('#popupTitle').text('SSMIS 해빙 표면거칠기('+titleString+')');
+		  $('#popupTitle').text($('.sensor_rou h4').html() + '('+titleString+')');
 		  $('#meReset').click();
 //		  $('#panzoomDialog').modalmanager('loading');
 		  $('#panzoomDialog').modal('show');

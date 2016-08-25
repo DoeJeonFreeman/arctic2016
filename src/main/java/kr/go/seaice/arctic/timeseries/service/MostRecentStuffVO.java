@@ -1,6 +1,7 @@
 package kr.go.seaice.arctic.timeseries.service;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,6 +30,8 @@ public class MostRecentStuffVO implements Serializable {
 	//arcticOcean_Bearing Sea 
 	private double ocean03;
 	
+//	private String sensor;
+	
 	private static final SimpleDateFormat MAIN_DATE_FORMAT = 
 			new SimpleDateFormat("yyyy.MM.dd.");
 	private static final SimpleDateFormat VIEW_DATE_FORMAT = 
@@ -37,7 +40,6 @@ public class MostRecentStuffVO implements Serializable {
 			new SimpleDateFormat("yyyyMMdd");
 	private static final SimpleDateFormat CAL_DATE_FORMAT = 
 			new SimpleDateFormat("yyyy-MM-dd");
-	
 	
 	
 	public MostRecentStuffVO() {
@@ -121,6 +123,36 @@ public class MostRecentStuffVO implements Serializable {
 	public String getExtentInkmSquared(){
 		Double d = (double)this.extent*(Math.pow(10, 6));
 		return String.format("%,d",d.intValue());
+	}
+	
+	//
+	public String getSensor() {
+		String sensor="";
+		Long selected =  DateUtils.addDays(compbegindate, 6).getTime();
+		try {
+			Long F08_SSMI = MostRecentStuffVO.CAL_DATE_FORMAT.parse("1991-12-18").getTime();
+			Long F11_SSMI = MostRecentStuffVO.CAL_DATE_FORMAT.parse("1995-09-29").getTime();
+			Long F13_SSMI = MostRecentStuffVO.CAL_DATE_FORMAT.parse("2006-12-31").getTime();
+			Long F17_SSMIS = MostRecentStuffVO.CAL_DATE_FORMAT.parse("2016-03-31").getTime();
+//			Long F18_SSMIS = MostRecentStuffVO.CAL_DATE_FORMAT.parse("YYYY-MM-DD");
+			
+			if(selected <= F08_SSMI){ // 1988.01.01 ~ 1991.12.18.
+				sensor = "F08 SSM/I";
+			}else if(F08_SSMI < selected && selected <= F11_SSMI ){
+				sensor = "F11 SSM/I";
+			}else if(F11_SSMI < selected && selected <= F13_SSMI ){
+				sensor = "F13 SSM/I";
+			}else if(F13_SSMI < selected && selected <= F17_SSMIS ){
+				sensor = "F17 SSMIS";
+			}else if(F17_SSMIS < selected){
+				sensor = "F18 SSMIS";
+			}
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return sensor;
 	}
 	
 	//return yyyy.mm.dd. ~ yyyy.mm.dd. (week after)

@@ -220,7 +220,8 @@
 		    		//get rid of horizontal grid lines haha
 		        	
 		            title: {
-		                text: '해빙 면적 (x10^5 ㎢)',
+		            	useHTML: true,
+		                text: "해빙 면적 (x10<sup>5</sup> ㎢)",
 	                	style : {
 	                		font:'normal 12px Dotum'
 							//color : '#000000'
@@ -443,7 +444,8 @@
 		    		//get rid of horizontal grid lines haha
 					
 		            title: {
-		                text: '해빙 면적 (x10^5 ㎢)',
+		            	useHTML: true,
+		                text: "해빙 면적 (x10<sup>5</sup> ㎢)",
 	                	style : {
 	                		font:'normal 12px Dotum'
 							//color : '#000000'
@@ -660,15 +662,16 @@
 		    		//get rid of horizontal grid lines haha
 					
 		            title: {
-		                text: '해빙 면적 (x10^5 ㎢)',
+		            	useHTML: true,
+		                text: "해빙 면적 (x10<sup>5</sup> ㎢)",
 	                	style : {
-	                		font:'normal 12px Dotum'
+	                		font:'normal 12px NanumGothic'
 							//color : '#000000'
 	                	}	
 		            },
 		            labels:{
 			            style : {
-		            		font:'normal 11px Dotum'
+		            		font:'normal 11px NanumGothic'
 							//color : '#000000'
 			            }
 	            	},	

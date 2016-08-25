@@ -16,6 +16,17 @@ create table member (
 );
 INSERT INTO member VALUES ('nmsc','goqld1357!','Administrator','010-1245-1245','seaice@korea.kr');
 
+CREATE TABLE authorities (
+  userid VARCHAR2(60) NOT NULL,
+  authority VARCHAR2(20) NOT NULL,
+  CONSTRAINT fk_authorities FOREIGN KEY(userid) REFERENCES member(userid)
+);
+
+CREATE UNIQUE INDEX ix_authorities ON authorities(userid,authority); 
+INSERT INTO authorities VALUES ('nmsc','ROLE_ADMIN');
+INSERT INTO authorities VALUES ('nmsc','ROLE_USER');
+
+
 create table board (
     boardcd varchar2(20),
     boardnm varchar2(40) NOT NULL,
@@ -86,16 +97,6 @@ create table data_up2date(
 INSERT INTO data_up2date VALUES ('01CON','20120813','concentration',to_date('01-01-2007','mm-dd-yyyy'), sysdate);
 INSERT INTO data_up2date VALUES ('02PRE','201508','prediction', to_date('06-2015','mm-yyyy'), sysdate);
 INSERT INTO data_up2date VALUES ('03PAS','20120813','passage', to_date('01-01-2007','mm-dd-yyyy'), sysdate);
-
-CREATE TABLE authorities (
-  userid VARCHAR2(60) NOT NULL,
-  authority VARCHAR2(20) NOT NULL,
-  CONSTRAINT fk_authorities FOREIGN KEY(userid) REFERENCES member(userid)
-);
-
-CREATE UNIQUE INDEX ix_authorities ON authorities(userid,authority); 
-INSERT INTO authorities VALUES ('nmsc','ROLE_ADMIN');
-INSERT INTO authorities VALUES ('nmsc','ROLE_USER');
 
 
 create sequence SEQ_TIMESERIES increment by 1 start with 1;

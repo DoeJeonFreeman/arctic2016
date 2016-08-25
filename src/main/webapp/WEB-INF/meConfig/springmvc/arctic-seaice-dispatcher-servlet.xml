@@ -48,11 +48,9 @@
 	<mvc:resources mapping="/js/**" location="/js/" />
 	
 	<mvc:resources mapping="/mestrap/**" location="/meResources/ice/meBoot/" />
-	<!-- 
-	<mvc:resources mapping="/repos/**" location="/meData/" />
-	 -->
 	
 	<mvc:resources mapping="/data/**" location="/arcticData/" />
+	<mvc:resources mapping="/DAGR/**" location="/DAGR/" />
 	
 
  

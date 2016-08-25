@@ -233,7 +233,7 @@
 				//marginLeft : 60,
 				//marginRight : 60
 				style: {
-                	fontFamily: 'Dotum'
+                	fontFamily: 'NanumGothic'
             	}
 			},
 			title: {
@@ -248,7 +248,7 @@
 	            text: null,
 	            x: 25,
 	            style:{
-	            	font:'normal 12px Dotum'
+	            	font:'normal 12px NanumGothic'
 	            }
 	        },
 	        xAxis : {
@@ -296,16 +296,19 @@
 	        	        },
 	        	        lineWidth:0,
 	        	
+	        	        
+	        	        
 	            title: {
-	                text: '해빙 면적 (x10^6 ㎢)',
+	            	useHTML: true,
+	                text: "해빙 면적 (x10<sup>6</sup> ㎢)",
                 	style : {
-                		font:'normal 12px Dotum'
+                		font:'normal 12px NanumGothic'
 						//color : '#000000'
                 	}	
 	            },
 	            labels:{
 		            style : {
-	            		font:'normal 11px Dotum'
+	            		font:'normal 11px NanumGothic'
 						//color : '#000000'
 		            }
             	},	
@@ -343,7 +346,19 @@
 	        },
 	        
 			exporting: {
-				enabled:true
+				enabled:false
+                /* 
+				chartOptions:{
+                chart:{
+                    events:{
+                        load:function(){
+                            this.renderer.image("<c:url value='/assets/exp_bld_kma.png'/>", 500, 250, 189, 31)
+            .add();
+
+                        }
+                    }
+                }
+            } */
 	        },
 	        
 	        credits: {

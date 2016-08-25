@@ -48,7 +48,7 @@
 	var thisYear = 2016;
 	
  	$(document).ready(function(){
- 		changeImgSrc("<c:out value="${seaRoute.compbegindateInString}" />","<c:out value="${seaRoute.compbegindate4View}" />");
+ 		changeImgSrc("<c:out value="${seaRoute.compbegindateInString}" />","<c:out value="${seaRoute.compbegindate4View}" />","<c:out value="${seaRoute.sensor}" />");
 	}); 
  
  
@@ -257,7 +257,8 @@
 	            lineWidth:0,
 	    		//get rid of horizontal grid lines haha
 	            title: {
-	                text: '해빙 면적 (x10^5 ㎢)',
+	            	useHTML: true,
+	                text: "해빙 면적 (x10<sup>5</sup> ㎢)",
                 	style : {
                 		font:'normal 12px NanumGothic'
 						//color : '#000000'
@@ -520,9 +521,9 @@
 	              //  width: 0,
 	            //    color: '#ff0000',
 	            }],
-	            tickInterval:0.1,
-	            max:0.65,
-	            min:0.2
+	            tickInterval:0.2,
+	            max:0.6,
+	            min:0
 	        },
 	        tooltip: {
 //	            shared: true,
@@ -673,7 +674,7 @@
 			$('#'+i+' .selected').attr('meLatLng',meLatLng);
 			$('#'+i+' .selected').attr('ename',ename);
 			// 1
-			changeImgSrc(dateStr_currStuff, dateRangeStr_currStuff);
+			changeImgSrc(dateStr_currStuff, dateRangeStr_currStuff, sensor);
 			// 2
 			var whichRoute = $('#routeSelector .selected').attr('value');
 			subtractPointData(extentSeriesJson[whichRoute], 'psgExt');
@@ -703,6 +704,7 @@
 		<script>
 		var dateStr_currStuff = '${seaRoute.compbegindateInString}';
 		var dateRangeStr_currStuff = '${seaRoute.compbegindate4View}';
+		var sensor = '${seaRoute.sensor}';
 		
 		function meRequest(meDateObj){
 	 		$.ajax({
@@ -713,7 +715,8 @@
      			  success: function(response){
      				dateStr_currStuff = response.compbegindateInString;
      				dateRangeStr_currStuff = response.compbegindate4View;
-        	        changeImgSrc(dateStr_currStuff, dateRangeStr_currStuff);
+     				sensor = response.sensor;
+        	        changeImgSrc(dateStr_currStuff, dateRangeStr_currStuff, sensor);
      			  },
      			  error: function(){      
      			   alert('Error while request..');
@@ -722,7 +725,7 @@
    			 });
 		}
 		
-		function changeImgSrc(dateStr,dRangeStr){
+		function changeImgSrc(dateStr,dRangeStr,sensor){
 			var meIdx = mePadPro($('#routeSelector .selected').attr('meIdx'),2);
 			var meLatLng = $('#routeSelector .selected').attr('meLatLng');
 		
@@ -730,7 +733,7 @@
 			//console.log('changeImgSrc:: ' + path_img);
  	        $("#psgImg").attr("src",path_img);
  	        
- 	        $('#psgImgWrapper h4').text($('#routeSelector .selected').text() + ' SSMIS 해빙 면적'); //or use .html(<strong>textGoesHere</strong>') instead haha
+ 	        $('#psgImgWrapper h4').text($('#routeSelector .selected').text() + ' ' + sensor+ ' 해빙 면적'); //or use .html(<strong>textGoesHere</strong>') instead haha
  	        $('#psgImgWrapper h5').text(dRangeStr); 
 		}
 		
@@ -919,7 +922,7 @@
         	        			$('#meDemo').data('daterangepicker').setEndDate('<c:out value="${seaRoute.compbegindate4Cal}" />');
         	        			
         	        			$('#meDemo').val('<c:out value="${seaRoute.compbegindate4Cal}" />');
-        	        			changeImgSrc("<c:out value="${seaRoute.compbegindateInString}" />","<c:out value="${seaRoute.compbegindate4View}" />");
+        	        			changeImgSrc("<c:out value="${seaRoute.compbegindateInString}" />","<c:out value="${seaRoute.compbegindate4View}" />","<c:out value="${seaRoute.sensor}" />");
         	        		});
         	        	
         	           		$('#meDemo').daterangepicker({
@@ -1022,7 +1025,7 @@
 					    </ul>
 				    </div>	    
 				    
-		       		<label class="control-label pull-left" id="lbl_latlonRange"> (lat: 65 ~ 80N, lon: 20 ~ 60E)</label>	    
+		       		<label class="control-label pull-left" id="lbl_latlonRange" style="padding-left: 5px;"> (lat: 65 ~ 80N, lon: 20 ~ 60E)</label>	    
 		       		
 				</div>
 				
@@ -1073,7 +1076,7 @@
 		
 		<!-- right.smallIce spatialDistribution image -->
 		<div id="psgImgWrapper" class="col-md-6" align="center">
-			<h4>바렌츠해 SSMIS 해빙 면적</h4> 
+			<h4>바렌츠해 ${seaRoute.sensor} 해빙 면적</h4> 
 			<h5>${seaRoute.compbegindate4View} </h5>
 	        <img id="psgImg" class="img-responsive"   width="65%;">
 		</div>
